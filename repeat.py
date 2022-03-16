@@ -1,5 +1,3 @@
-from turtle import end_fill
-
 
 def find(s):
     # TODO
