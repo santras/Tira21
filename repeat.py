@@ -1,63 +1,43 @@
 
+
 def find(s):
-    # TODO
-    # kohta 1 mietitty, seuraavaksi kohta 2 ja sitten yleistäminen
-    # 1. etsi eka kirjain lopuista - jos yhtä monta kuin length->tulos 1
-    #                              - jos ei yhtään -> tulos length 
-    # 2. etsi toka kirjain lopuista - jos yhtä monta kuin length/2 -> tulos 2
-    #                               - jos ei yhtään -> tulos length
-    # 3. etsi kolmas kirjain lopuista -jos yhtä monta kuin length/3 -> tulos 3
-    #                               - jos ei yhtään -> tulos length
-    # jne
+    pituus=len(s)
+    tulos=-1
 
-    if len(s)==1:           # Yhden pitunen
-        return 1
+    mahd_pituudet=[]
+    s_set=set(s)
+    if len(s_set)==1:   # poikkeustapaus kun kaikki samaa
+        return (1)
 
-    if s.find(s[0],1,len(s))==-1: # eka kirjain ei esiinnyt uudelleen
-        return (len(s))
 
+    for ii in range(pituus-1,1,-1):                     # kokeillaan kaikki ]1,len(s)[  välissä olevat
+        if pituus % ii == 0:    #jos menee tasan
+            mahd_pituudet.append(ii)
+    #print(mahd_pituudet)
+    for jj in mahd_pituudet:                            # mahdollisille pituuksille omat testit esim 100 --> 50,25,20,10,5,4,2
+        lista = []                                      # mahdolliset kirjainyhdistelmät esim ekalla kierroksella s[0:49] ja s[50:]
+        listan_pituus = int(pituus/jj)                          # montako jäsentä listassa esim 2
+        for ii in range(0,listan_pituus):
+            lista.append(s[ii*jj:(ii+1)*jj])
+        #print(lista, listan_pituus,jj)
+        lista_set = set(lista)
+        if len(lista_set)==1:       # kaikki listassa uniikkeja
+            tulos=jj                # päivittyy pienemmäksi jos pienempiä löytöjä
+    
+    if tulos == -1:                 # ei löytöjä, joten itse lista pienin yksikkö
+        return (pituus)
     else:
-        substringit=[]   # alkukohdat matcheille
-        matchiluku =0
-        viela=True
-        ii=0
-        while ii != len(s):                  # kun ei olla lopussa
-            if s.find(s[0],ii,len(s)) == -1: # kierros loppuu, ei enää matcheja
-                break
-            else:
-                loyty_ind = s.find(s[0],ii,len(s))
-                substringit[matchiluku]= loyty_ind
-                matchiluku += 1
-                ii = loyty_ind + 1
-        
-        if matchiluku == len(s):
-            return 1
-        
-
-            
-
-
-    #for ii in range(1,len(s)):
-    #    if s.find(s[ii-1],ii,len(s))==-1: # ei matchia (ei saa tulla tähän jos löytyy kaava, vain jos joku kirjain ei esiinny ollenkaan uudelleen)
-    #        return (len(s))
-    #    else:
-    #        for jj in range(0,len(s)):
+        return (tulos)
 
 
 
 
-
-        #print (ii)
-        #print(s[ii])
-        #print(s.find(s[ii],ii,len(s)))
-        #print(s.find('b',ii,len(s)))                # jos löytyy indeksi, jos ei -1
-        #if s.find(s[ii-1],ii,len(s))==-1:     # ei löydy uutta matchia
-        #    print('hep')
 
 
 if __name__ == "__main__":
-    #print(find("aaaaa")) # 1  3a
+    #print(find("Bababadalgharaghtakamminapronnkonnbronntonnepronntuonnthunntrovarrhounawnskawntoohoohoordeenenthurnu"))
+    print(find("aaaaa")) # 1  
     print(find("abcd")) # 4
-    #print(find("abcabcabcabc")) # 3
-    #print(find("aybabtuaybabtu")) # 7
-    #print(find("abcabca")) # 7
+    print(find("abcabcabcabc")) #3
+    print(find("aybabtuaybabtu")) # 7
+    print(find("abcabca")) # 7
